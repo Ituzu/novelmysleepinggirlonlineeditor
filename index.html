@@ -3,33 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Document Editor</title>
+    <title>Edit Document</title>
 </head>
 <body>
-    <h1>Online Document Editor</h1>
-    <a href="document.txt" target="_self">Open Document</a>
-    <br><br>
-    <textarea id="editor" rows="20" cols="100">Your document content goes here...</textarea>
-    <br><br>
-    <button onclick="saveDocument()">Save Document</button>
+    <h1>Edit Document</h1>
+    <textarea id="editor" rows="20" cols="100"></textarea><br>
+    <button onclick="saveDocument()">Save</button>
 
     <script>
         function saveDocument() {
-            const text = document.getElementById('editor').value;
+            const content = document.getElementById('editor').value;
             fetch('save_document.php', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Type': 'application/json'
                 },
-                body: 'content=' + encodeURIComponent(text)
+                body: JSON.stringify({ content: content })
             })
             .then(response => response.text())
-            .then(data => {
-                alert('Document saved successfully!');
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            .then(data => alert(data))
+            .catch(error => console.error('Error:', error));
         }
     </script>
 </body>
